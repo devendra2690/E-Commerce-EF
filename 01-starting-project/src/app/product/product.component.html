@@ -1,0 +1,14 @@
+<section class="product-list">
+  @for(product of products; track product.id){
+    <div class="product">
+      <img [src]="product.imageUrl" [alt]="product.name">
+      <h3>{{product.name}}</h3>
+      <p>$ {{product.price}}</p>
+      <div class="quantity-container">
+        <button class="quantity-btn" (click)="decreaseQuantity(product)">-</button>
+        <span id="qty2" class="quantity">{{quantity(product.id)}}</span>
+        <button class="quantity-btn" (click)="increseQuantity(product)">+</button>
+      </div>
+    </div>
+  }
+</section>
