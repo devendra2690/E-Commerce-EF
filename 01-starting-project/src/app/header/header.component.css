@@ -36,3 +36,18 @@ body {
 .nav-links a:hover {
   text-decoration: underline;
 }
+
+.shopping-cart {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.cart-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('https://cdn.iconscout.com/icon/free/png-256/free-shopping-cart-icon-download-in-svg-png-gif-file-formats--shop-buy-trolley-user-interface-pack-icons-1151214.png?f=webp'); /* Replace with your cart icon */
+  background-size: cover;
+}

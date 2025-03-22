@@ -3,6 +3,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { provideRouter } from '@angular/router';
 import { ProductComponent } from './app/product/product.component';
+import { ShoppingCartComponent } from './app/shopping-cart/shopping-cart.component';
 
 
 bootstrapApplication(AppComponent,{
@@ -18,6 +19,10 @@ bootstrapApplication(AppComponent,{
         {
           path:'products',
           component: ProductComponent
+        },
+        {
+          path: 'shopping-cart',
+          component: ShoppingCartComponent
         }
       ]
     )

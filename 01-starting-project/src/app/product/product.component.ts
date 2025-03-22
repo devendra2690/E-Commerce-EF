@@ -1,7 +1,8 @@
 import { products } from './../dummy_product_list';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Product } from './product';
 import { ShoppingCart } from '../shopping-cart/shopping-cart';
+import { ShoppingCartService } from '../shopping-cart/shopping-cart.service';
 
 @Component({
   selector: 'app-product',
@@ -13,45 +14,21 @@ import { ShoppingCart } from '../shopping-cart/shopping-cart';
 export class ProductComponent {
 
   products : Product[] = products;
-  shoppingCart : ShoppingCart[] = [];
-
+  private shoppingSetrvice = inject(ShoppingCartService);
+  shoppingCart : ShoppingCart[] = this.shoppingSetrvice.shoppingCartReadOnly();
 
   decreaseQuantity = (product : Product) => {
-     this.shoppingCart = this.shoppingCart.map(
-                         (cartItem) => cartItem.productId === product.id && cartItem.quantity > 0
-                         ? {...cartItem, quantity: cartItem.quantity - 1} : cartItem)
-                         .filter((cartItem) => cartItem.quantity > 0);
-
+    this.shoppingSetrvice.removeItemFromCart(product);
     console.log(this.shoppingCart);
   }
 
   quantity = (id: string) => {
-    return this.shoppingCart.find((cartItem) => cartItem.productId === id)?.quantity || 0;
+    return this.shoppingSetrvice.shoppingCartReadOnly()
+            .find((cartItem) => cartItem.productId === id)?.quantity || 0;
   }
 
   increseQuantity = (product : Product) => {
-
-    let productExist = false;
-
-    this.shoppingCart = this.shoppingCart.map(cartItem => {
-        if (cartItem.productId === product.id) {
-            productExist = true;
-            return { ...cartItem, quantity: cartItem.quantity + 1 };
-        }
-        return cartItem;
-    });
-
-    if(!productExist){
-      this.shoppingCart = [...this.shoppingCart, {
-        productId: product.id,
-        quantity: 1,
-        price: product.price,
-        name: product.name,
-        imageUrl: product.imageUrl
-      }]
-    }
-
+    this.shoppingSetrvice.addItemToCart(product);
     console.log(this.shoppingCart);
-
   }
 }
