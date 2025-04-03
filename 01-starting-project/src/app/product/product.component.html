@@ -1,4 +1,11 @@
 <section class="product-list">
+
+  @for(product of productsName; track product) {
+    <div class="product">
+      <h3>{{ product }}</h3>
+    </div>
+  }
+
   @for(product of products; track product.id){
     <div class="product">
       <img [src]="product.imageUrl" [alt]="product.name">

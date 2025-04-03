@@ -3,19 +3,36 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Product } from './product';
 import { ShoppingCart } from '../shopping-cart/shopping-cart';
 import { ShoppingCartService } from '../shopping-cart/shopping-cart.service';
+import { Observable } from 'rxjs';
+import { ProductService } from './product.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [],
+  imports: [AsyncPipe],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
-export class ProductComponent {
+export class ProductComponent implements OnInit {
 
   products : Product[] = products;
   private shoppingSetrvice = inject(ShoppingCartService);
+  private productService = inject(ProductService);
   shoppingCart : ShoppingCart[] = this.shoppingSetrvice.shoppingCartReadOnly();
+  productsName : string[] = [];
+
+  ngOnInit() {
+    this.productService.getProductName().subscribe(
+      (productsName) => {
+        this.productsName = productsName;
+        console.log(this.productsName);
+      },
+      (error) => {
+        console.error('Error fetching product names:', error);
+      }
+    );
+  }
 
   decreaseQuantity = (product : Product) => {
     this.shoppingSetrvice.removeItemFromCart(product);
